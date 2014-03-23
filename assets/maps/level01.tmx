@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="32" tileheight="32" backgroundcolor="#ebebeb">
+ <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
+  <image source="../graphics/tileset.png" width="128" height="96"/>
+ </tileset>
+ <layer name="layer" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjZWBgYKYSZgNiFgbqAZZR82huHhMONrnmkQJG/Tv8zWNnoF75wgHEADz+APc=
+  </data>
+ </layer>
+ <layer name="collision" width="20" height="15" opacity="0.51">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYKQyphYYNY/25jHiYJNrHilg1L8jwzxqYgCorABH
+  </data>
+ </layer>
+ <objectgroup name="objects" width="20" height="15">
+  <object name="player" type="player" x="307" y="243" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="37" y="43" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="103" y="42" width="34" height="33"/>
+  <object name="enemy" type="enemy" x="161" y="58" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="221" y="56" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="275" y="56" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="344" y="53" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="417" y="56" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="521" y="59" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="435" y="115" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="552" y="137" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="553" y="320" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="551" y="399" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="417" y="408" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="344" y="397" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="179" y="402" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="54" y="408" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="44" y="312" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="46" y="242" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="44" y="170" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="44" y="107" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="109" y="247" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="504" y="124" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="562" y="252" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="481" y="303" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="497" y="400" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="427" y="346" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="280" y="396" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="109" y="400" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="46" y="360" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="152" y="324" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="229" y="371" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="305" y="340" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="163" y="267" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="94" y="325" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="97" y="110" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="162" y="120" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="107" y="179" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="228" y="116" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="296" y="122" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="365" y="122" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="506" y="193" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="495" y="249" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="413" y="281" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="168" y="197" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="432" y="203" width="32" height="32"/>
+ </objectgroup>
+</map>

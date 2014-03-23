@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="32" tileheight="32" backgroundcolor="#ebebeb">
+ <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
+  <image source="../graphics/tileset.png" width="128" height="96"/>
+ </tileset>
+ <layer name="layer" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjZWBgYMaBuYkUg2E2IGZhwA2wyRFSP2oeqjwTlc0jRoxc85iobB4usYE0byjFx0CYx86Au7zgIVIMhjmAGAB5KQF/
+  </data>
+ </layer>
+ <layer name="collision" width="20" height="15" opacity="0.51">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYKQyxgWwyRFSP2oefvnB5j5S1Y/GB369w8E8amIA48wAYA==
+  </data>
+ </layer>
+ <objectgroup name="objects" width="20" height="15">
+  <object name="enemy" type="enemy" x="268" y="47" width="32" height="32"/>
+  <object name="enemy" type="enemy" x="305" y="78" width="34" height="33"/>
+  <object name="enemy" type="enemy" x="342" y="46" width="32" height="32"/>
+  <object name="start" type="player" x="303" y="410" width="34" height="33"/>
+ </objectgroup>
+</map>
