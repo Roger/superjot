@@ -61,9 +61,18 @@ class GameScene extends Scene
     overlayText.resizable = true;
     overlayText.color = 0x000000;
     overlayText.size = 20;
-    overlayText.richText = "E: " + numberEnemies + " K: " + numberKills;
+    overlayText.richText = "Enemies: " + numberEnemies + " Kills: " + numberKills + " Best: " + bestKills;
     var overlay:Entity = new Entity(8, 8, overlayText);
     add(overlay);
+ }
+
+ private function reload()
+ {
+     numberEnemies = 0;
+     numberKills = 0;
+     this.clearTweens();
+     removeAll();
+     begin();
  }
 
  public override function remove<E:Entity>(entity:E):E
@@ -71,7 +80,19 @@ class GameScene extends Scene
      if(entity.type == "enemy") {
         numberEnemies--;
         numberKills++;
-        overlayText.richText = "E: " + numberEnemies + " K: " + numberKills;
+
+        if(bestKills < numberKills) {
+            bestKills = numberKills;
+        }
+
+        overlayText.richText = "Enemies: " + numberEnemies + " Kills: " + numberKills + " Best: " + bestKills;
+        if(numberEnemies == 0)
+        {
+            level++;
+            reload();
+        }
+     } else if(entity.type == "player") {
+        reload();
      }
      return super.remove(entity);
  }
@@ -81,7 +102,10 @@ class GameScene extends Scene
     createMap();
     addOverlay();
  }
+
  private var overlayText:Text;
  private var numberEnemies:Int = 0;
  private var numberKills:Int = 0;
+ private var bestKills:Int = 0;
+ private var level:Int = 0;
 }
