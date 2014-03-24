@@ -103,6 +103,7 @@ class Bullet extends Entity
     public function new(x:Float, y:Float, angle:Float, target:String)
     {
         super(x, y);
+        coll =  [target, "solid", "bullet"];
 
         this.angle = angle;
         this.target = target;
@@ -147,8 +148,16 @@ class Bullet extends Entity
             scene.remove(e);
             var explosion:Explosion = new Explosion(e.x, e.y, 0xff0000);
             this.scene.add(explosion);
-            explosion.explode(angle);
-            //cast(e, Enemy).kill(angle);
+            explosion.explode(angle, 4);
+        } else if(e.type == "bullet") {
+            scene.remove(e);
+            var explosion:Explosion = new Explosion(e.x, e.y, 0xdadada);
+            this.scene.add(explosion);
+            explosion.explode(angle, 2);
+        }
+
+        if(target == "player") {
+            scene.end();
         }
         scene.remove(this);
         return true;
@@ -161,7 +170,7 @@ class Bullet extends Entity
         super.update();
     }
 
-    private var coll =  ["enemy", "solid"];
+    private var coll:Array<String>;
     private var angle:Float;
     private var acceleration:Float = 10;
     private var image:Image;
