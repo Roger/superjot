@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="32" tileheight="32" backgroundcolor="#ebebeb">
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="name" value="beginning"/>
+ </properties>
  <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
   <image source="../graphics/tileset.png" width="128" height="96"/>
  </tileset>
  <layer name="layer" width="20" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjZWBgYMaBuYkUg2E2IGZhwA2wyRFSP2oeqjwTlc0jRoxc85iobB4usYE0byjFx0CYx86Au7zgIVIMhjmAGAB5KQF/
+   eJxjZWBgYMaDudFofJgNiFkY8AMWNJqQ2lHzRs0bNW/omsfOgL/M4EGj8WEOIAYAbLUBeQ==
   </data>
  </layer>
  <layer name="collision" width="20" height="15" opacity="0.51">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYKQyxgWwyRFSP2oefvnB5j5S1Y/GB369w8E8amIA48wAYA==
+   eJxjZGBgYKQyxgcY0WhCakfNGzVv1LyhbR41MQDdPABd
   </data>
  </layer>
  <objectgroup name="objects" width="20" height="15">
-  <object name="enemy" type="enemy" x="268" y="47" width="32" height="32"/>
-  <object name="enemy" type="enemy" x="305" y="78" width="34" height="33"/>
-  <object name="enemy" type="enemy" x="342" y="46" width="32" height="32"/>
-  <object name="start" type="player" x="303" y="410" width="34" height="33"/>
+  <object name="player" type="player" x="294" y="414" width="23" height="25"/>
+  <object name="enemy" type="enemy" x="302" y="42" width="19" height="20"/>
+  <object name="enemy" type="enemy" x="304" y="355" width="20" height="21"/>
+  <object name="times moves" type="text" x="76" y="76" width="161" height="27"/>
+  <object name="only when you moves" type="text" x="366" y="78" width="161" height="27"/>
  </objectgroup>
 </map>
