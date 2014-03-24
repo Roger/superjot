@@ -113,9 +113,6 @@ class Bullet extends Entity
         entityMask = new Imagemask(image);
         entityMask.assignTo(this);
 
-        Input.define("up", [Key.UP, Key.W]);
-        Input.define("down", [Key.DOWN, Key.S]);
-
         graphic = image;
 
         moveAtAngle(angle, acceleration, coll);

@@ -7,7 +7,6 @@ import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.masks.Imagemask;
 import com.haxepunk.utils.Input;
-import com.haxepunk.utils.Key;
 
 
 class Player extends Entity
@@ -33,14 +32,6 @@ class Player extends Entity
         graphic = image;
 
         //setHitbox(32, 32);
-
-        // defines left and right as arrow keys and WASD controls
-        Input.define("left", [Key.LEFT, Key.A]);
-        Input.define("right", [Key.RIGHT, Key.D]);
-        Input.define("up", [Key.UP, Key.W]);
-        Input.define("down", [Key.DOWN, Key.S]);
-
-        Input.define("shoot", [Key.SPACE, Key.Q]);
 
         velocity = 0;
         type = "player";
