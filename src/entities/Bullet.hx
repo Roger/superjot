@@ -19,7 +19,7 @@ class CustomEmitter extends Emitter
     private function handleInput()
     {
         timeFlowing = false;
-        if (Input.check("up") || Input.check("down"))
+        if (Input.check("up") || Input.check("down") || Input.check("shoot"))
         {
             timeFlowing = true;
         }
