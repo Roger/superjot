@@ -150,16 +150,18 @@ class Bullet extends Entity
             var explosion:Explosion = new Explosion(e.x, e.y, 0xff0000);
             this.scene.add(explosion);
             explosion.explode(angle, 4);
+            if(target == "player") {
+                scene.end();
+            }
         } else if(e.type == "bullet" && cast(e, Bullet).target != this.target) {
             scene.remove(e);
             var explosion:Explosion = new Explosion(e.x, e.y, 0xdadada);
             this.scene.add(explosion);
             explosion.explode(angle, 2);
+        } else if(e.type == "bullet") {
+            return true;
         }
 
-        if(target == "player") {
-            scene.end();
-        }
         scene.remove(this);
         return true;
     }
