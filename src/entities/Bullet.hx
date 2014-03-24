@@ -45,15 +45,16 @@ class CustomEmitter extends Emitter
 
 class Explosion extends Entity
 {
-    public function new(x:Float, y:Float)
+    public function new(x:Float, y:Float, color:Int)
     {
         super(x, y);
+        this.color = color;
     }
 
-    public function explode(angle:Float)
+    public function explode(angle:Float, size:Int)
     {
 
-        _emitter = new CustomEmitter("graphics/particle.png", 4, 4);
+        _emitter = new CustomEmitter("graphics/particle.png", size, size);
         graphic = _emitter;
 
         _emitter.newType("explode", [0]);
@@ -68,7 +69,7 @@ class Explosion extends Entity
                           );
 
         _emitter.setAlpha("explode", 10, 0);
-        _emitter.setColor("explode", 0xff0000, 0xff0000);
+        _emitter.setColor("explode", color, color);
         _emitter.setGravity("explode", 0, 0);
 
         for(i in 0...10) {
@@ -77,7 +78,7 @@ class Explosion extends Entity
     }
 
     private var _emitter:Emitter;
-
+    private var color:Int;
 }
 
 class Trail extends Entity
@@ -144,7 +145,7 @@ class Bullet extends Entity
     {
         if(e.type == target) {
             scene.remove(e);
-            var explosion:Explosion = new Explosion(e.x, e.y);
+            var explosion:Explosion = new Explosion(e.x, e.y, 0xff0000);
             this.scene.add(explosion);
             explosion.explode(angle);
             //cast(e, Enemy).kill(angle);
