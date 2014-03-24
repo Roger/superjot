@@ -117,7 +117,7 @@ class GameScene extends Scene
         case "text":
             var text:Text = new Text();
             text.resizable = true;
-            text.color = 0x000000;
+            text.color = 0xcacaca;
             text.size = 20;
             text.richText = object.name;
             add(new Entity(object.x, object.y, text));
