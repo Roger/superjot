@@ -25,7 +25,7 @@ class GameScene extends Scene
  public function createMap()
  {
    // load map
-   var map = TmxMap.loadFromFile("maps/level02.tmx");
+   var map = TmxMap.loadFromFile("maps/level0"+level+".tmx");
 
    // create entity map
    var e_map = new TmxEntity(map);
