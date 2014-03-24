@@ -15,23 +15,12 @@ class Player extends Entity
     {
         super(x+18, y+16);
 
-        //image = new Spritemap("graphics/player.png", 9, 16);
-        //image.scale = 2;
-        //image.add("idle", [0]);
-        //// we set a speed to the walk animation
-        //image.add("walk", [1, 2, 3, 2], 12);
-        //// tell the image to play the idle animation
-        //image.play("idle");
-
         image = Image.createRect(16, 16, 0xFFFFFF);
-        //image = new Image("graphics/you.png");
 
         image.centerOrigin();
         entityMask = new Imagemask(image);
         entityMask.assignTo(this);
         graphic = image;
-
-        //setHitbox(32, 32);
 
         velocity = 0;
         type = "player";
