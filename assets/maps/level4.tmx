@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="name" value="the end"/>
+ </properties>
+ <tileset firstgid="1" name="tileset" tilewidth="32" tileheight="32">
+  <image source="../graphics/tileset.png" width="128" height="96"/>
+ </tileset>
+ <layer name="layer" width="20" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjZWBgYKYSZgNiFgbqARYk85iw0Ew4xIk1D59+Us1DV0sL89Ddy8RAmnmUAnzmobuDUHwRax4p8UPIPHS3UGIeOWAkmsfOQL3yhQOIASzlAUk=
+  </data>
+ </layer>
+ <layer name="collision" width="20" height="15" opacity="0.51">
+  <data encoding="base64" compression="zlib">
+   eJxjZGBgYKQyphZANg8bjU+eGPMImU+KeehqaWEePvcTYx6lAJ956OKE4otY80iJH0LmobuFEvPIASPVPGpiACCnAHA=
+  </data>
+ </layer>
+ <objectgroup name="objects" width="20" height="15">
+  <object name="player" type="player" x="294" y="414" width="23" height="25"/>
+ </objectgroup>
+</map>
