@@ -114,6 +114,13 @@ class GameScene extends Scene
             add(enemy);
             entityList.push(enemy);
             numberEnemies++;
+        case "text":
+            var text:Text = new Text();
+            text.resizable = true;
+            text.color = 0x000000;
+            text.size = 20;
+            text.richText = object.name;
+            add(new Entity(object.x, object.y, text));
         default:
             trace("unknown type: " + object.type);
      }
