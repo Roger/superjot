@@ -126,7 +126,7 @@ class Bullet extends Entity
     {
         acceleration = 0.005;
 
-        if (Input.check("up") || Input.check("down"))
+        if (Input.check("up") || Input.check("down") || Input.check("shoot"))
         {
             acceleration = 10;
         }

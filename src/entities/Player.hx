@@ -44,6 +44,7 @@ class Player extends Entity
 
         velocity = 0;
         type = "player";
+        name = "player";
     }
 
     private function handleInput()

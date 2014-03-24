@@ -3,8 +3,11 @@ package entities;
 import com.haxepunk.HXP;
 import com.haxepunk.Mask;
 import com.haxepunk.Entity;
+import com.haxepunk.utils.Input;
 import com.haxepunk.graphics.Image;
 import com.haxepunk.masks.Imagemask;
+
+import scenes.GameScene;
 
 class Enemy extends Entity
 {
@@ -13,7 +16,7 @@ class Enemy extends Entity
         super(x, y);
 
         image = Image.createRect(16, 16, 0xFF0000);
-        //image.centerOrigin();
+        image.centerOrigin();
 
         entityMask = new Imagemask(image);
         entityMask.assignTo(this);
@@ -22,6 +25,26 @@ class Enemy extends Entity
 
         velocity = 0;
         type = "enemy";
+    }
+
+    public override function update()
+    {
+        if (Input.check("up") || Input.check("down") || Input.check("shoot")){
+            elapsed += HXP.fixed ? 1 / HXP.assignedFrameRate : HXP.elapsed;
+
+            var player = world.getInstance("player");
+            if(player == null){
+                return;
+            }
+            angle = HXP.angle(this.x, this.y, player.x, player.y);
+            image.angle = angle;
+            entityMask.update();
+
+            if(elapsed >= 0.2 + HXP.random) {
+                scene.add(new Bullet(x, y, angle, "player"));
+                elapsed = 0;
+            }
+        }
     }
 
     public override function moveCollideX(e:Entity)
@@ -43,4 +66,7 @@ class Enemy extends Entity
     private static inline var maxVelocity:Float = 3;
     private static inline var speed:Float = 3;
     private static inline var drag:Float = 0.4;
+
+    private var timeFlowing:Bool = false;
+    private var elapsed:Float = 0;
 }
