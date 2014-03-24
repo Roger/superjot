@@ -29,7 +29,7 @@ class Enemy extends Entity
 
     public override function update()
     {
-        if (Input.check("up") || Input.check("down") || Input.check("shoot")){
+        if (Input.check("up") || Input.check("down") || Input.pressed("shoot")){
             elapsed += HXP.fixed ? 1 / HXP.assignedFrameRate : HXP.elapsed;
 
             var player = world.getInstance("player");

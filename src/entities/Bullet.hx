@@ -19,7 +19,7 @@ class CustomEmitter extends Emitter
     private function handleInput()
     {
         timeFlowing = false;
-        if (Input.check("up") || Input.check("down") || Input.check("shoot"))
+        if (Input.check("up") || Input.check("down") || Input.pressed("shoot"))
         {
             timeFlowing = true;
         }
@@ -127,7 +127,7 @@ class Bullet extends Entity
     {
         acceleration = 0.005;
 
-        if (Input.check("up") || Input.check("down") || Input.check("shoot"))
+        if (Input.check("up") || Input.check("down") || Input.pressed("shoot"))
         {
             acceleration = 10;
         }
@@ -150,7 +150,7 @@ class Bullet extends Entity
             var explosion:Explosion = new Explosion(e.x, e.y, 0xff0000);
             this.scene.add(explosion);
             explosion.explode(angle, 4);
-        } else if(e.type == "bullet") {
+        } else if(e.type == "bullet" && cast(e, Bullet).target != this.target) {
             scene.remove(e);
             var explosion:Explosion = new Explosion(e.x, e.y, 0xdadada);
             this.scene.add(explosion);
