@@ -107,7 +107,11 @@ class Bullet extends Entity
 
         this.angle = angle;
         this.target = target;
-        image = Image.createRect(4, 2, 0xffffff);
+        var color:Int = 0xcc0000;
+        if(target == "enemy") {
+            color = 0xffffff;
+        }
+        image = Image.createRect(4, 2, color);
         image.centerOrigin();
         image.angle = angle;
         entityMask = new Imagemask(image);
