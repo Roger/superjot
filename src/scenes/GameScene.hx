@@ -85,6 +85,7 @@ class GameScene extends Scene
  {
    // load map
    var map = TmxMap.loadFromFile("maps/level"+level+".tmx");
+   name = map.properties.resolve("name");
 
    // create entity map
    var e_map = new TmxEntity(map);
@@ -153,7 +154,7 @@ class GameScene extends Scene
 
  private function updateOvelay()
  {
-    overlayText.richText = "Enemies: " + numberEnemies + " Kills: " + numberKills + " Best: " + bestKills;
+    overlayText.richText = "Enemies: " + numberEnemies + " Kills: " + numberKills + " Best: " + bestKills + " Level: " + name;
  }
 
  public override function remove<E:Entity>(entity:E):E
@@ -220,6 +221,7 @@ class GameScene extends Scene
     titleScreen.visible = true;
  }
 
+ private var name:String = "";
  private var status:String = "";
  private var titleScreen:TitleScreen;
  private var overlayText:Text;
