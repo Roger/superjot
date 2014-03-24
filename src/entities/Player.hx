@@ -41,7 +41,7 @@ class Player extends Entity
             acceleration = -1;
         }
 
-        if (Input.pressed("shoot"))
+        if (Input.pressed("shoot") || Input.mousePressed)
         {
             scene.add(new Bullet(x, y, angle, "enemy"));
         }

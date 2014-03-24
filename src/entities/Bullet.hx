@@ -19,7 +19,7 @@ class CustomEmitter extends Emitter
     private function handleInput()
     {
         timeFlowing = false;
-        if (Input.check("up") || Input.check("down") || Input.pressed("shoot"))
+        if (Input.check("up") || Input.check("down") || Input.pressed("shoot") || Input.mousePressed)
         {
             timeFlowing = true;
         }
@@ -127,7 +127,7 @@ class Bullet extends Entity
     {
         acceleration = 0.005;
 
-        if (Input.check("up") || Input.check("down") || Input.pressed("shoot"))
+        if (Input.check("up") || Input.check("down") || Input.pressed("shoot") || Input.mousePressed)
         {
             acceleration = 10;
         }
