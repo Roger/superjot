@@ -7,6 +7,7 @@ import com.haxepunk.utils.Input;
 import com.haxepunk.graphics.Image;
 
 import entities.Player;
+import entities.Bullet;
 import entities.Enemy;
 
 import com.haxepunk.tmx.TmxEntity;
@@ -50,8 +51,8 @@ class GameScene extends Scene
             trace("unknown type: " + object.type);
      }
    }
+   return e_map;
 
-   add(e_map);
  }
 
  private function addOverlay()
@@ -61,7 +62,7 @@ class GameScene extends Scene
     overlayText.resizable = true;
     overlayText.color = 0x000000;
     overlayText.size = 20;
-    overlayText.richText = "Enemies: " + numberEnemies + " Kills: " + numberKills + " Best: " + bestKills;
+    updateOvelay();
     var overlay:Entity = new Entity(8, 8, overlayText);
     add(overlay);
  }
@@ -70,9 +71,17 @@ class GameScene extends Scene
  {
      numberEnemies = 0;
      numberKills = 0;
-     this.clearTweens();
+     var map:Entity = createMap();
      removeAll();
-     begin();
+     add(map);
+
+     addOverlay();
+     updateOvelay();
+ }
+
+ private function updateOvelay()
+ {
+    overlayText.richText = "Enemies: " + numberEnemies + " Kills: " + numberKills + " Best: " + bestKills;
  }
 
  public override function remove<E:Entity>(entity:E):E
@@ -85,7 +94,7 @@ class GameScene extends Scene
             bestKills = numberKills;
         }
 
-        overlayText.richText = "Enemies: " + numberEnemies + " Kills: " + numberKills + " Best: " + bestKills;
+        updateOvelay();
         if(numberEnemies == 0)
         {
             level++;
@@ -99,7 +108,8 @@ class GameScene extends Scene
 
  public override function begin()
  {
-    createMap();
+    var map:Entity = createMap();
+    add(map);
     addOverlay();
  }
 
