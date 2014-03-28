@@ -15,7 +15,7 @@ class Enemy extends Entity
     {
         super(x, y);
 
-        image = Image.createRect(16, 16, 0xFF0000);
+        image = new Image("graphics/enemy.png");
         image.centerOrigin();
 
         entityMask = new Imagemask(image);

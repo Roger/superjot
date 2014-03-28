@@ -15,7 +15,7 @@ class Player extends Entity
     {
         super(x+18, y+16);
 
-        image = Image.createRect(16, 16, 0xFFFFFF);
+        image = new Image("graphics/player.png");
 
         image.centerOrigin();
         entityMask = new Imagemask(image);
