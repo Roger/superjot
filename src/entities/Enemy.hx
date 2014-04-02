@@ -59,6 +59,7 @@ class Enemy extends CustomEntity
         return false;
     }
 
+    private var elapsed:Float = 0;
     private var velocity:Float;
     private var acceleration:Float;
     private var entityMask:Mask;
