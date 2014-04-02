@@ -213,15 +213,12 @@ class GameScene extends Scene
        updateOvelay();
        if(numberEnemies == 0)
        {
-           //level++;
            bestKills = 0;
            status = "won";
-           //reload();
            replay();
        }
     } else if(entity.type == "player") {
        status = "lose";
-       //reload();
        replay();
     }
     entityList.remove(entity);
@@ -286,12 +283,16 @@ class GameScene extends Scene
  {
      elapsed += HXP.elapsed; // / HXP.rate;
      //trace("REPLAY:"+ elapsed);
-     //if(true) {
      if(elapsed >= Recording.slowRate/HXP.rate) {
          elapsed -= Recording.slowRate/HXP.rate;
 
          var frame:utils.Frame = Recording.frames.shift();
-         if(frame == null) return;
+         if(frame == null) {
+             isReplay = false;
+             if(status == "won") level++;
+             reload();
+             return;
+         }
 
          //trace("------ FRAME --------");
          for(action in frame.actions) {
