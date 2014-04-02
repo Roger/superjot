@@ -186,7 +186,9 @@ class GameScene extends Scene
 
  private function updateOvelay()
  {
-    overlayText.richText = "Enemies: " + numberEnemies + " Kills: " + numberKills + " Best: " + bestKills + " Level: " + name + " s:" + seconds;
+    var sec:String = Std.string(seconds);
+    sec = sec.substr(0, sec.indexOf(".") + 3);
+    overlayText.richText = 'Enemies: $numberEnemies Kills: $numberKills Best: $bestKills Level: $name s: $sec';
  }
 
  public override function remove<E:Entity>(entity:E):E
