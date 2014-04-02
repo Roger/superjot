@@ -5,7 +5,9 @@ import com.haxepunk.Scene;
 import com.haxepunk.Entity;
 import com.haxepunk.utils.Input;
 import com.haxepunk.graphics.Image;
+import com.haxepunk.math.Vector;
 
+import entities.CustomEntity;
 import entities.Player;
 import entities.Bullet;
 import entities.Enemy;
@@ -14,6 +16,9 @@ import com.haxepunk.tmx.TmxEntity;
 import com.haxepunk.tmx.TmxMap;
 
 import com.haxepunk.graphics.Text;
+
+import utils.Recording;
+import utils.Action;
 
 class TitleScreen extends Entity
 {
@@ -81,7 +86,7 @@ class GameScene extends Scene
     super();
  }
 
- public function createMap()
+ public function createMap(empty:Bool=false)
  {
    // load map
    var map = TmxMap.loadFromFile("maps/level"+level+".tmx");
@@ -101,14 +106,16 @@ class GameScene extends Scene
    {
      switch(object.type)
      {
-        case "platform":
-            trace("Platform!");
         case "player":
+            if(empty) continue;
+
             var player:Player = new Player(object.x, object.y);
             player.active = false;
             entityList.push(player);
             add(player);
         case "enemy":
+            if(empty) continue;
+
             var enemy:Enemy = new Enemy(object.x, object.y);
             enemy.active = false;
             add(enemy);
@@ -159,34 +166,77 @@ class GameScene extends Scene
      titleScreen.updateText(status);
  }
 
+ private function replay()
+ {
+     isReplay = true;
+     for(e in entityList) {
+         this.remove(e);
+     }
+     seconds = 0;
+     Recording.update();
+     replayEntities = new Map<String,Dynamic>();
+     elapsed = 0;
+     HXP.rate = 1;
+     var map:Entity = createMap(true);
+     removeAll();
+     add(map);
+     addOverlay();
+     updateOvelay();
+ }
+
  private function updateOvelay()
  {
-    overlayText.richText = "Enemies: " + numberEnemies + " Kills: " + numberKills + " Best: " + bestKills + " Level: " + name;
+    overlayText.richText = "Enemies: " + numberEnemies + " Kills: " + numberKills + " Best: " + bestKills + " Level: " + name + " s:" + seconds;
  }
 
  public override function remove<E:Entity>(entity:E):E
  {
-     if(entity.type == "enemy") {
-        numberEnemies--;
-        numberKills++;
+    if(entity.type == "player" || entity.type == "enemy" || entity.type == "bullet" || entity.type == "explosion") {
+        Recording.add("remove", entity);
+    }
 
-        if(bestKills < numberKills) {
-            bestKills = numberKills;
-        }
+    if(entityList.indexOf(entity) == -1) return super.remove(entity);
 
-        updateOvelay();
-        if(numberEnemies == 0)
-        {
-            level++;
-            bestKills = 0;
-            status = "won";
-            reload();
+    if(isReplay) {
+        return super.remove(entity);
+    }
+
+
+    if(entity.type == "enemy") {
+       numberEnemies--;
+       numberKills++;
+
+       if(bestKills < numberKills) {
+           bestKills = numberKills;
+       }
+
+       updateOvelay();
+       if(numberEnemies == 0)
+       {
+           //level++;
+           bestKills = 0;
+           status = "won";
+           //reload();
+           replay();
+       }
+    } else if(entity.type == "player") {
+       status = "lose";
+       //reload();
+       replay();
+    }
+    entityList.remove(entity);
+    return super.remove(entity);
+ }
+
+ public override function add<E:Entity>(entity:E):E
+ {
+    if(entity.type == "player" || entity.type == "enemy" || entity.type == "bullet" || entity.type == "explosion") {
+        if(!this.isReplay) {
+            entityList.push(entity);
+            Recording.add("add", entity);
         }
-     } else if(entity.type == "player") {
-        status = "lose";
-        reload();
-     }
-     return super.remove(entity);
+    }
+    return super.add(entity);
  }
 
  private function activateLevel()
@@ -209,13 +259,93 @@ class GameScene extends Scene
     levelActive = false;
     titleScreen.active = true;
     add(titleScreen);
+    //Recording.print();
+ }
+
+ private function updateNormal()
+ {
+     HXP.rate = Recording.slowRate;
+     if (Input.check("up") || Input.check("down") || Input.pressed("shoot") || Input.mousePressed)
+     {
+         HXP.rate = 1;
+     }
+     if(!levelActive && Input.mousePressed)
+     {
+         activateLevel();
+     }
+
+     elapsed +=  HXP.elapsed;
+     //trace("NORMAL"+elapsed);
+     if(elapsed >= Recording.slowRate/HXP.rate) {
+         Recording.update();
+         elapsed -= Recording.slowRate/HXP.rate;
+     }
+ }
+
+ private function updateReplay()
+ {
+     elapsed += HXP.elapsed; // / HXP.rate;
+     //trace("REPLAY:"+ elapsed);
+     //if(true) {
+     if(elapsed >= Recording.slowRate/HXP.rate) {
+         elapsed -= Recording.slowRate/HXP.rate;
+
+         var frame:utils.Frame = Recording.frames.shift();
+         if(frame == null) return;
+
+         //trace("------ FRAME --------");
+         for(action in frame.actions) {
+             //trace(action.action + ": " + action.type + " = " + action.name);
+             switch(action.action)
+             {
+                 case "add":
+                     switch(action.type)
+                     {
+                         case "player":
+                             var entity:Player = new Player(action.position.x, action.position.y, action.name);
+                             entity.active = false;
+                             replayEntities.set(action.name, entity);
+                             add(entity);
+                         case "enemy":
+                             var entity:Enemy = new Enemy(action.position.x, action.position.y, action.name);
+                             entity.active = false;
+                             entity.angle = action.angle;
+                             add(entity);
+                             replayEntities.set(action.name, entity);
+                         case "bullet":
+                             var entity:Bullet = new Bullet(action.position.x, action.position.y, action.angle, action.target, action.name);
+                             entity.active = false;
+                             add(entity);
+                             replayEntities.set(action.name, entity);
+                         default:
+                             trace("Invalid entity type " + action.type);
+                     }
+                case "move":
+                    var entity = replayEntities.get(action.name);
+                    if(entity == null) continue;
+                    entity.x = action.position.x;
+                    entity.y = action.position.y;
+                    entity.updateAngle(action.angle);
+                    //trace(action.action + ": " + action.type + " = " + action.name);
+                case "remove":
+                    var entity:CustomEntity = replayEntities.get(action.name);
+                    if(entity == null) continue;
+                    entity.visible = false;
+                    remove(entity);
+
+             }
+        }
+     }
  }
 
  public override function update()
  {
-     if(!levelActive && Input.mousePressed)
-     {
-         activateLevel();
+     seconds += HXP.elapsed;
+     updateOvelay();
+     if(isReplay) {
+         updateReplay();
+     } else {
+         updateNormal();
      }
      super.update();
  }
@@ -228,6 +358,7 @@ class GameScene extends Scene
     titleScreen.visible = true;
  }
 
+ private var elapsed:Float = 0;
  private var name:String = "";
  private var status:String = "";
  private var titleScreen:TitleScreen;
@@ -235,7 +366,12 @@ class GameScene extends Scene
  private var numberEnemies:Int = 0;
  private var numberKills:Int = 0;
  private var bestKills:Int = 0;
- private var level:Int = 0;
+ private var level:Int = 2;
  private var levelActive:Bool = false;
  private var entityList:Array<Dynamic> = [];
+
+ private var isReplay:Bool = false;
+ private var replayEntities:Map<String,Dynamic>;
+
+ private var seconds:Float = 0;
 }

@@ -98,11 +98,12 @@ class Trail extends Entity
     private var elapsed:Float = 0;
 }
 
-class Bullet extends Entity
+class Bullet extends CustomEntity
 {
-    public function new(x:Float, y:Float, angle:Float, target:String)
+    public function new(x:Float, y:Float, angle:Float, target:String, name:String=null)
     {
-        super(x, y);
+        super(x, y, name);
+
         coll =  [target, "solid", "bullet"];
 
         this.angle = angle;
@@ -115,7 +116,7 @@ class Bullet extends Entity
         image.centerOrigin();
         image.angle = angle;
         entityMask = new Imagemask(image);
-        entityMask.assignTo(this);
+        entityMask.parent = this;
 
         graphic = image;
 
@@ -125,7 +126,7 @@ class Bullet extends Entity
 
     private function handleInput()
     {
-        acceleration = 0.005;
+        acceleration = 10;
 
         if (Input.check("up") || Input.check("down") || Input.pressed("shoot") || Input.mousePressed)
         {
@@ -168,15 +169,13 @@ class Bullet extends Entity
 
     public override function update()
     {
-        handleInput();
+        acceleration = 500 * HXP.elapsed;
         moveAtAngle(angle, acceleration, coll);
         super.update();
     }
 
     private var coll:Array<String>;
-    private var angle:Float;
     private var acceleration:Float = 10;
-    private var image:Image;
     private var entityMask:Mask;
-    private var target:String;
+    public var target:String;
 }

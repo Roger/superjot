@@ -9,22 +9,21 @@ import com.haxepunk.masks.Imagemask;
 import com.haxepunk.utils.Input;
 
 
-class Player extends Entity
+class Player extends CustomEntity
 {
-    public function new(x:Float, y:Float)
+    public function new(x:Float, y:Float, name:String="player")
     {
-        super(x+18, y+16);
+        super(x+18, y+16, name);
 
         image = new Image("graphics/player.png");
 
         image.centerOrigin();
         entityMask = new Imagemask(image);
-        entityMask.assignTo(this);
+        entityMask.parent = this;
         graphic = image;
 
         velocity = 0;
         type = "player";
-        name = "player";
     }
 
     private function handleInput()
@@ -33,12 +32,12 @@ class Player extends Entity
 
         if (Input.check("up"))
         {
-            acceleration = 1;
+            acceleration = 100 * HXP.elapsed;
         }
 
         if (Input.check("down"))
         {
-            acceleration = -1;
+            acceleration = -100 * HXP.elapsed;
         }
 
         if (Input.pressed("shoot") || Input.mousePressed)
@@ -80,17 +79,14 @@ class Player extends Entity
         entityMask.update();
 
         handleInput();
-        move();
 
         //moveBy(0, velocity, coll);
-        moveAtAngle(angle, velocity, coll);
+        moveAtAngle(angle, acceleration, coll);
         super.update();
     }
 
     private var velocity:Float;
     private var acceleration:Float;
-    private var angle:Float;
-    private var image:Image;
     private var entityMask:Mask;
 
     private static inline var maxVelocity:Float = 3;

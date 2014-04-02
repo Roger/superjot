@@ -19,8 +19,6 @@ class CustomEntity extends Entity
         this.name = sname;
         super(x, y); // workaround.. Entity.new reset name..
         this.name = sname;
-        //lastX = x;
-        //lastY = y;
     }
 
     public override function moveBy(x:Float, y:Float, solidType:Dynamic = null, sweep:Bool = false)
@@ -97,14 +95,10 @@ class CustomEntity extends Entity
     public override function update()
     {
         super.update();
-        var slowRate:Float = 0.005;
         _elapsed +=  HXP.elapsed;
-        if(_elapsed >= slowRate/HXP.rate) {
-            _elapsed -= slowRate/HXP.rate;
+        if(_elapsed >= Recording.slowRate/HXP.rate) {
+            _elapsed -= Recording.slowRate/HXP.rate;
              Recording.add("move", this);
-             lastX = x;
-             lastY = y;
-             lastAngle = angle;
         }
     }
 
@@ -113,9 +107,6 @@ class CustomEntity extends Entity
         image.angle = angle;
     }
 
-    private var lastX:Float = 0;
-    private var lastY:Float = 0;
-    private var lastAngle:Float = 0;
     public var angle:Float;
     private var image:Image;
     private var _elapsed:Float = 0;
