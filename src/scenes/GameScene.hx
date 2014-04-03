@@ -8,6 +8,7 @@ import com.haxepunk.graphics.Image;
 import com.haxepunk.math.Vector;
 
 import entities.CustomEntity;
+import entities.Explosion;
 import entities.Player;
 import entities.Bullet;
 import entities.Enemy;
@@ -335,6 +336,19 @@ class GameScene extends Scene
                     if(entity == null) continue;
                     entity.visible = false;
                     remove(entity);
+                case "explode":
+                    var color:Int;
+                    var size:Int;
+                    if(action.target == "player") {
+                        color = 0xff0000;
+                        size = 4;
+                    } else {
+                        color = 0xdadada;
+                        size = 2;
+                    }
+                    var explosion:Explosion = new Explosion(action.position.x, action.position.y, color);
+                    this.add(explosion);
+                    explosion.explode(action.angle, size);
 
              }
         }

@@ -8,78 +8,10 @@ import com.haxepunk.graphics.Image;
 import com.haxepunk.utils.Input;
 import com.haxepunk.utils.Key;
 
-import com.haxepunk.graphics.Emitter;
-import com.haxepunk.utils.Ease;
-
 import com.haxepunk.HXP;
 
+import utils.Recording;
 
-class CustomEmitter extends Emitter
-{
-    private function handleInput()
-    {
-        timeFlowing = false;
-        if (Input.check("up") || Input.check("down") || Input.pressed("shoot") || Input.mousePressed)
-        {
-            timeFlowing = true;
-        }
-    }
-    override public function update()
-    {
-        handleInput();
-
-        if(timeFlowing) {
-            super.update();
-            elapsed = 0;
-        } else {
-            elapsed += HXP.fixed ? 1 / HXP.assignedFrameRate : HXP.elapsed;
-            if(elapsed >= 1) {
-                super.update();
-                elapsed = 0;
-            }
-        }
-    }
-    private var timeFlowing:Bool = false;
-    private var elapsed:Float = 0;
-}
-
-class Explosion extends Entity
-{
-    public function new(x:Float, y:Float, color:Int)
-    {
-        super(x, y);
-        this.color = color;
-    }
-
-    public function explode(angle:Float, size:Int)
-    {
-
-        _emitter = new CustomEmitter("graphics/particle.png", size, size);
-        graphic = _emitter;
-
-        _emitter.newType("explode", [0]);
-        _emitter.setMotion("explode", // name
-                           angle, // angle
-                           20, // distance
-                           0.5, // duration
-                           30,  // ? angle range
-                           0, // ? distance range
-                           0, // ? Duration range
-                           Ease.quadOut // ? Easing
-                          );
-
-        _emitter.setAlpha("explode", 10, 0);
-        _emitter.setColor("explode", color, color);
-        _emitter.setGravity("explode", 0, 0);
-
-        for(i in 0...10) {
-            _emitter.emitInCircle("explode", this.originX, this.originY, 10);
-        }
-    }
-
-    private var _emitter:Emitter;
-    private var color:Int;
-}
 
 class Trail extends Entity
 {
@@ -154,13 +86,21 @@ class Bullet extends CustomEntity
             if(target == "player") {
                 scene.end();
             }
+
+            Recording.add("explode", this, target);
         } else if(e.type == "bullet" && cast(e, Bullet).target != this.target) {
             scene.remove(e);
             var explosion:Explosion = new Explosion(e.x, e.y, 0xdadada);
             this.scene.add(explosion);
             explosion.explode(angle, 2);
+            Recording.add("explode", this, "bullet");
+        } else if(e.type == "solid") {
+            var explosion:Explosion = new Explosion(x, y, 0xdadada);
+            this.scene.add(explosion);
+            explosion.explode(angle, 2);
+            Recording.add("explode", this, "bullet");
         } else if(e.type == "bullet") {
-            return true;
+            return false;
         }
 
         scene.remove(this);

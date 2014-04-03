@@ -16,7 +16,7 @@ class Recording
     public static var frames:Array<Frame> = [];
     public static var actionsToPush:Array<Action> = [];
 
-    public static function add(action:String, entity:Dynamic)
+    public static function add(action:String, entity:Dynamic, target:String=null)
     {
         var entity:CustomEntity = cast(entity, CustomEntity);
         var action:Action = {
@@ -27,6 +27,7 @@ class Recording
             position: new Vector(entity.x, entity.y)
         };
         if(entity.type == "bullet") action.target = cast(entity, Bullet).target;
+        if(target != null) action.target = target;
         actionsToPush.push(action);
     }
 
