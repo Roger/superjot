@@ -5,7 +5,6 @@ import com.haxepunk.Mask;
 import com.haxepunk.Entity;
 import com.haxepunk.utils.Input;
 import com.haxepunk.graphics.Image;
-import com.haxepunk.masks.Imagemask;
 import com.haxepunk.masks.Polygon;
 
 import scenes.GameScene;
@@ -14,17 +13,20 @@ class Enemy extends CustomEntity
 {
     public function new(x:Float, y:Float, name:String=null)
     {
-        super(x, y, name);
-
         image = new Image("graphics/enemy.png");
+        var h:Int = image.height;
+        var w:Int = image.width;
+
+        super(x+w/2, y+h/2, name);
+        graphic = image;
         image.centerOrigin();
 
-        entityMask = new Imagemask(image);
-        entityMask.parent = this;
+        mask = Polygon.createFromArray([
+                -h/2, -w/2,
+                image.width-w/2, -w/2,
+                image.width-w/2, image.height-w/2,
+                0-w/2, image.height-w/2]);
 
-        graphic = image;
-
-        velocity = 0;
         type = "enemy";
     }
 
@@ -39,7 +41,9 @@ class Enemy extends CustomEntity
             }
             this.angle = HXP.angle(this.x, this.y, player.x, player.y);
             image.angle = angle;
-            entityMask.update();
+
+            cast(mask, Polygon).angle = angle;
+            mask.update();
 
             if(elapsed >= 0.2 + HXP.random) {
                 scene.add(new Bullet(x, y, angle, "player"));
@@ -49,20 +53,9 @@ class Enemy extends CustomEntity
         super.update();
     }
 
-    public override function moveCollideX(e:Entity)
-    {
-        return false;
-    }
-
-    public override function moveCollideY(e:Entity)
-    {
-        return false;
-    }
-
     private var elapsed:Float = 0;
     private var velocity:Float;
     private var acceleration:Float;
-    private var entityMask:Mask;
 
     private static inline var maxVelocity:Float = 3;
     private static inline var speed:Float = 3;

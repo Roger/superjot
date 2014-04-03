@@ -5,24 +5,30 @@ import com.haxepunk.Mask;
 import com.haxepunk.Entity;
 import com.haxepunk.graphics.Spritemap;
 import com.haxepunk.graphics.Image;
-import com.haxepunk.masks.Imagemask;
+import com.haxepunk.masks.Polygon;
 import com.haxepunk.utils.Input;
+
+import flash.geom.Point;
 
 
 class Player extends CustomEntity
 {
     public function new(x:Float, y:Float, name:String="player")
     {
-        super(x+18, y+16, name);
-
         image = new Image("graphics/player.png");
+        var h:Int = image.height;
+        var w:Int = image.width;
 
-        image.centerOrigin();
-        entityMask = new Imagemask(image);
-        entityMask.parent = this;
+        super(x+w/2, y+h/2, name);
         graphic = image;
+        image.centerOrigin();
 
-        velocity = 0;
+        mask = Polygon.createFromArray([
+                -h/2, -w/2,
+                image.width-w/2, -w/2,
+                image.width-w/2, image.height-w/2,
+                0-w/2, image.height-w/2]);
+
         type = "player";
     }
 
@@ -76,7 +82,8 @@ class Player extends CustomEntity
         angle = HXP.angle(this.x, this.y, world.mouseX, world.mouseY);
         image.angle = angle;
 
-        entityMask.update();
+        cast(mask, Polygon).angle = angle;
+        mask.update();
 
         handleInput();
 
@@ -85,9 +92,8 @@ class Player extends CustomEntity
         super.update();
     }
 
-    private var velocity:Float;
+    private var velocity:Float = 0;
     private var acceleration:Float;
-    private var entityMask:Mask;
 
     private static inline var maxVelocity:Float = 3;
     private static inline var speed:Float = 3;
