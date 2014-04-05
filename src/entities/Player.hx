@@ -87,7 +87,6 @@ class Player extends CustomEntity
 
         handleInput();
 
-        //moveBy(0, velocity, coll);
         moveAtAngle(angle, acceleration, coll);
         super.update();
     }

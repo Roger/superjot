@@ -3,6 +3,7 @@ package entities;
 import com.haxepunk.Mask;
 import com.haxepunk.Entity;
 import com.haxepunk.masks.Imagemask;
+import com.haxepunk.masks.Circle;
 import com.haxepunk.graphics.Image;
 
 import com.haxepunk.utils.Input;
@@ -13,57 +14,35 @@ import com.haxepunk.HXP;
 import utils.Recording;
 
 
-class Trail extends Entity
-{
-    public function new(x:Float, y:Float)
-    {
-        super(x, y);
-    }
-
-    override public function update()
-    {
-        super.update();
-        elapsed += HXP.fixed ? 1 / HXP.assignedFrameRate : HXP.elapsed;
-    }
-
-    private var timeFlowing:Bool = false;
-    private var elapsed:Float = 0;
-}
-
 class Bullet extends CustomEntity
 {
     public function new(x:Float, y:Float, angle:Float, target:String, name:String=null)
     {
+
         super(x, y, name);
 
         coll =  [target, "solid", "bullet"];
 
-        this.angle = angle;
         this.target = target;
+
         var color:Int = 0xcc0000;
         if(target == "enemy") {
             color = 0xffffff;
         }
+
         image = Image.createRect(4, 2, color);
+
+        this.angle = angle;
+        graphic = image;
         image.centerOrigin();
         image.angle = angle;
-        entityMask = new Imagemask(image);
-        entityMask.parent = this;
 
-        graphic = image;
+        mask = new Circle(3, cast(image.x - 3), cast(image.y - 3));
 
-        moveAtAngle(angle, acceleration, coll);
+        moveAtAngle(angle, 2, coll, true);
+
         type = "bullet";
-    }
 
-    private function handleInput()
-    {
-        acceleration = 10;
-
-        if (Input.check("up") || Input.check("down") || Input.pressed("shoot") || Input.mousePressed)
-        {
-            acceleration = 10;
-        }
     }
 
     public override function moveCollideX(e:Entity)
@@ -94,28 +73,38 @@ class Bullet extends CustomEntity
             this.scene.add(explosion);
             explosion.explode(angle, 2);
             Recording.add("explode", this, "bullet");
+            this.active = false;
         } else if(e.type == "solid") {
             var explosion:Explosion = new Explosion(x, y, 0xdadada);
             this.scene.add(explosion);
             explosion.explode(angle, 2);
             Recording.add("explode", this, "bullet");
+            this.active = false;
         } else if(e.type == "bullet") {
             return false;
         }
 
         scene.remove(this);
+        this.active = false;
         return true;
     }
 
     public override function update()
     {
-        acceleration = 500 * HXP.elapsed;
-        moveAtAngle(angle, acceleration, coll);
+        acceleration = (500 * HXP.elapsed);
+        if(Recording.slowRate != HXP.rate) {
+            acceleration /= 5;
+            if(this.active) moveAtAngle(angle, acceleration, coll);
+            if(this.active) moveAtAngle(angle, acceleration, coll);
+            if(this.active) moveAtAngle(angle, acceleration, coll);
+            if(this.active) moveAtAngle(angle, acceleration, coll);
+        }
+        if(this.active) moveAtAngle(angle, acceleration, coll);
+
         super.update();
     }
 
     private var coll:Array<String>;
     private var acceleration:Float = 10;
-    private var entityMask:Mask;
     public var target:String;
 }

@@ -27,29 +27,29 @@ class Enemy extends CustomEntity
                 image.width-w/2, image.height-w/2,
                 0-w/2, image.height-w/2]);
 
+        elapsed = 1 * HXP.random;
+
         type = "enemy";
     }
 
     public override function update()
     {
-       // if (Input.check("up") || Input.check("down") || Input.pressed("shoot") || Input.mousePressed){
-            elapsed += HXP.fixed ? 1 / HXP.assignedFrameRate : HXP.elapsed;
+        elapsed += HXP.elapsed;
 
-            var player = world.getInstance("player");
-            if(player == null){
-                return;
-            }
-            this.angle = HXP.angle(this.x, this.y, player.x, player.y);
-            image.angle = angle;
+        var player = world.getInstance("player");
+        if(player == null){
+            return;
+        }
+        this.angle = HXP.angle(this.x, this.y, player.x, player.y);
+        image.angle = angle;
 
-            cast(mask, Polygon).angle = angle;
-            mask.update();
+        cast(mask, Polygon).angle = angle;
+        mask.update();
 
-            if(elapsed >= 0.2 + HXP.random) {
-                scene.add(new Bullet(x, y, angle, "player"));
-                elapsed = 0;
-            }
-        //}
+        if(elapsed >= 0.5 + 4 * HXP.random) {
+            scene.add(new Bullet(x, y, angle, "player"));
+            elapsed = 0;
+        }
         super.update();
     }
 
