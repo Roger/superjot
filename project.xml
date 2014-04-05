@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
-	<meta title="SuperDemake" package="ar.com.fsck.shdemake" version="1.0.0" company="" />
+	<meta title="SuperJot" package="ar.com.fsck.superjot" version="1.0.0" company="" />
 
  	<app file="Main" main="Main" path="bin" />
 
-	<window fps="30" background="0xcacaca" />
+	<window background="0x202020" />
 	<window width="640" height="480" resizable="false" unless="mobile" />
 	<window fullscreen="true" if="mobile" />
 	<window orientation="landscape" vsync="true" antialiasing="0" if="cpp" />
