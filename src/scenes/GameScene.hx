@@ -383,7 +383,7 @@ class GameScene extends Scene
  private var numberEnemies:Int = 0;
  private var numberKills:Int = 0;
  private var bestKills:Int = 0;
- private var level:Int = 2;
+ private var level:Int = 0;
  private var levelActive:Bool = false;
  private var entityList:Array<Dynamic> = [];
 
