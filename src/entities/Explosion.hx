@@ -29,7 +29,7 @@ class Explosion extends Entity
         _emitter.setMotion("explode", // name
                            angle, // angle
                            20, // distance
-                           0.5, // duration
+                           0.1, // duration
                            30,  // ? angle range
                            0, // ? distance range
                            0, // ? Duration range
