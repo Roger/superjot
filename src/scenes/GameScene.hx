@@ -369,7 +369,8 @@ class GameScene extends Scene
 
  public override function update()
  {
-     seconds += HXP.elapsed;
+     if(levelActive)
+         seconds += HXP.elapsed;
      updateOvelay();
      if(isReplay) {
          updateReplay();
