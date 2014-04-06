@@ -140,14 +140,23 @@ class GameScene extends Scene
  private function addOverlay()
  {
     //overlayText = new Text(" = " + numberEnemies, 0, 0, 0, 0, { color:0x000000, size:30 } );
-    overlayText = new Text();
-    overlayText.resizable = true;
-    overlayText.color = 0x000000;
-    overlayText.size = 20;
+    overlayTopText = new Text();
+    overlayTopText.resizable = true;
+    overlayTopText.color = 0x000000;
+    overlayTopText.size = 20;
+
+    overlayBottomText = new Text();
+    overlayBottomText.resizable = true;
+    overlayBottomText.color = 0x000000;
+    overlayBottomText.size = 20;
+
     updateOvelay();
-    var overlay:Entity = new Entity(8, 8, overlayText);
-    add(overlay);
+    add(new Entity(8, 8, overlayTopText));
+    add(new Entity(HXP.screen.width / 2 - overlayBottomText.width,
+                   HXP.screen.height - overlayBottomText.height,
+                   overlayBottomText));
     titleScreen = new TitleScreen(0, 0);
+
     titleScreen.visible = false;
     add(titleScreen);
  }
@@ -189,8 +198,10 @@ class GameScene extends Scene
  private function updateOvelay()
  {
     var sec:String = Std.string(seconds);
+    overlayTopText.richText = 'Enemies: $numberEnemies Kills: $numberKills Best: $bestKills Level: $name';
+
     sec = sec.substr(0, sec.indexOf(".") + 3);
-    overlayText.richText = 'Enemies: $numberEnemies Kills: $numberKills Best: $bestKills Level: $name s: $sec';
+    overlayBottomText.richText = 'Time: $sec';
  }
 
  public override function remove<E:Entity>(entity:E):E
@@ -380,7 +391,8 @@ class GameScene extends Scene
  private var name:String = "";
  private var status:String = "";
  private var titleScreen:TitleScreen;
- private var overlayText:Text;
+ private var overlayTopText:Text;
+ private var overlayBottomText:Text;
  private var numberEnemies:Int = 0;
  private var numberKills:Int = 0;
  private var bestKills:Int = 0;
