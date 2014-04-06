@@ -27,7 +27,7 @@ class Enemy extends CustomEntity
                 image.width-w/2, image.height-w/2,
                 0-w/2, image.height-w/2]);
 
-        elapsed = 1 * HXP.random;
+        elapsed = (10 * HXP.random)/20;
 
         type = "enemy";
     }
@@ -35,6 +35,7 @@ class Enemy extends CustomEntity
     public override function update()
     {
         elapsed += HXP.elapsed;
+        elapsed += (10 * HXP.random) / (80/HXP.rate);
 
         var player = world.getInstance("player");
         if(player == null){
@@ -46,7 +47,7 @@ class Enemy extends CustomEntity
         cast(mask, Polygon).angle = angle;
         mask.update();
 
-        if(elapsed >= 0.5 + 4 * HXP.random) {
+        if(elapsed >= 2) {
             scene.add(new Bullet(x, y, angle, "player"));
             elapsed = 0;
         }
