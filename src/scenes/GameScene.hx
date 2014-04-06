@@ -112,7 +112,6 @@ class GameScene extends Scene
 
             var player:Player = new Player(object.x, object.y);
             player.active = false;
-            entityList.push(player);
             add(player);
         case "enemy":
             if(empty) continue;
@@ -120,7 +119,6 @@ class GameScene extends Scene
             var enemy:Enemy = new Enemy(object.x, object.y);
             enemy.active = false;
             add(enemy);
-            entityList.push(enemy);
             numberEnemies++;
         case "text":
             var text:Text = new Text();
