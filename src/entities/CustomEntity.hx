@@ -96,8 +96,8 @@ class CustomEntity extends Entity
     {
         super.update();
         _elapsed +=  HXP.elapsed;
-        if(_elapsed >= Recording.slowRate/HXP.rate) {
-            _elapsed -= Recording.slowRate/HXP.rate;
+        if(_elapsed >= (Recording.slowRate/HXP.rate)/8) {
+            _elapsed -= (Recording.slowRate/HXP.rate)/8;
              Recording.add("move", this);
         }
     }

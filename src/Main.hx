@@ -19,6 +19,8 @@ class Main extends Engine
         Input.define("up", [Key.UP, Key.W]);
         Input.define("down", [Key.DOWN, Key.S]);
         Input.define("shoot", [Key.SPACE, Key.Q]);
+        Input.define("pause", [Key.P]);
+        Input.define("skip", [Key.K]);
 
     #if debug
         HXP.console.enable();

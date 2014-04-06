@@ -146,12 +146,11 @@ class GameScene extends Scene
     overlayBottomText = new Text();
     overlayBottomText.resizable = true;
     overlayBottomText.color = 0x000000;
-    overlayBottomText.size = 20;
+    overlayBottomText.size = 18;
 
     updateOvelay();
     add(new Entity(8, 8, overlayTopText));
-    add(new Entity(HXP.screen.width / 2 - overlayBottomText.width,
-                   HXP.screen.height - overlayBottomText.height,
+    add(new Entity(8, HXP.screen.height - overlayBottomText.height,
                    overlayBottomText));
     titleScreen = new TitleScreen(0, 0);
 
@@ -185,7 +184,7 @@ class GameScene extends Scene
      Recording.update();
      replayEntities = new Map<String,Dynamic>();
      elapsed = 0;
-     HXP.rate = 1;
+     HXP.rate = 0.15;
      var map:Entity = createMap(true);
      removeAll();
      add(map);
@@ -200,6 +199,12 @@ class GameScene extends Scene
 
     sec = sec.substr(0, sec.indexOf(".") + 3);
     overlayBottomText.richText = 'Time: $sec';
+    if(isReplay) {
+        overlayBottomText.richText = 'S[k]ip / ${isPaused == true?"[P]lay":"[P]ause"} / ${HXP.rate == 1?"[S]low":"Fa[s]t"} - ' + overlayBottomText.richText;
+        overlayBottomText.richText += ' [REPLAY]';
+    } else {
+        overlayBottomText.richText = '${isPaused == true?"[P]lay":"[P]ause"} - ' + overlayBottomText.richText;
+    }
  }
 
  public override function remove<E:Entity>(entity:E):E
@@ -286,14 +291,27 @@ class GameScene extends Scene
 
      elapsed +=  HXP.elapsed;
      //trace("NORMAL"+elapsed);
-     if(elapsed >= Recording.slowRate/HXP.rate) {
+     if(elapsed >= (Recording.slowRate/HXP.rate)/4) {
          Recording.update();
-         elapsed -= Recording.slowRate/HXP.rate;
+         elapsed -= (Recording.slowRate/HXP.rate)/4;
      }
  }
 
  private function updateReplay()
  {
+     if(Input.pressed("down")) {
+         if(HXP.rate == 1) {
+             HXP.rate = 0.15;
+         } else {
+             HXP.rate = 1;
+         }
+     } else if (Input.pressed("skip")) {
+         isReplay = false;
+         Recording.frames = [];
+         if(status == "won") level++;
+         reload();
+         return;
+     }
      elapsed += HXP.elapsed; // / HXP.rate;
      //trace("REPLAY:"+ elapsed);
      if(elapsed >= Recording.slowRate/HXP.rate) {
@@ -367,9 +385,19 @@ class GameScene extends Scene
 
  public override function update()
  {
+     if(Input.pressed("pause")) {
+         isPaused = !isPaused;
+     }
+
+     updateOvelay();
+     if(isPaused) {
+         return;
+     } else {
+         //pass
+     }
+
      if(levelActive)
          seconds += HXP.elapsed;
-     updateOvelay();
      if(isReplay) {
          updateReplay();
      } else {
@@ -400,6 +428,7 @@ class GameScene extends Scene
  private var entityList:Array<Dynamic> = [];
 
  private var isReplay:Bool = false;
+ private var isPaused:Bool = false;
  private var replayEntities:Map<String,Dynamic>;
 
  private var seconds:Float = 0;
