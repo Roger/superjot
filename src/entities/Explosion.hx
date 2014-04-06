@@ -45,6 +45,14 @@ class Explosion extends Entity
         }
     }
 
+    public override function update()
+    {
+        super.update();
+        if(_emitter.particleCount == 0) {
+            scene.remove(this);
+        }
+    }
+
     private var _emitter:Emitter;
     private var color:Int;
 }
