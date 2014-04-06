@@ -156,6 +156,7 @@ class GameScene extends Scene
  {
      numberEnemies = 0;
      numberKills = 0;
+     seconds = 0;
      var map:Entity = createMap();
      removeAll();
      add(map);
