@@ -18,22 +18,17 @@
                 color: #cacaca;
             }
             .alert {
-                color: #ffffff;
+                color: #ff0000;
                 font-width: bold;
             }
 
             #info a:link, #info a:visited, #info a:hover, #info a:active {
                 color:#0044aa;
             }
-
-            #changelog {
-                text-align: left;
-                margin: 50px;
-            }
         </style>
         <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
         <script type="text/javascript">
-            swfobject.embedSWF("superjot-new.swf", "game", "640", "480", "9.0.0");
+            swfobject.embedSWF("superjot.swf", "game", "640", "480", "9.0.0");
         </script>
     </head>
     <body>
@@ -45,36 +40,13 @@
 
         <div id="info">
             <h2>Instructions</h2>
-            <p>[S]/[W] and Mouse to move - [Q] or [Space] or Click to shot - [P] to pause</p>
-            <p>In replay, [S] to toggle speed - [K] to skip</p>
+            <p>[S]/[W] and Mouse to move - [Q] or [Space] or Click to shot</p>
             <h2>What?</h2>
             <p>SuperJot is a demake of <a href="http://superhotgame.com/">Super Hot</a> for <a href="http://www.ludumdare.com/compo/2014/03/07/mini-ludum-dare-50-announcement/">Mini Ludum Dare 50</a></p>
-            <p class="alert">This is a new version! for the first one, go <a href="index_old.html">here</a></p>
+            <p class="alert">This version is old! for the new one go <a href="index.html">here</a></p>
             <p>Source Code at <a href="https://github.com/Roger/superjot">github</a></p>
             <h2>Thanks to</h2>
             <p><a href="http://www.dequis.org/">dequis</a> for giving ideas and testing hard, also the first human to win the "impossible" level</p>
-
-
-        <div id="changelog">
-          <pre>
-ChangeLog
-=========
-
-* Add Replay
-* Add Sunglasses!
-* Fix double kills
-* Fix bullets not hiting some bullets
-* Fix typos
-* Etc..
-
-TODO(if ever)
-=============
-
-* Smooth replays in slow mode
-* AI
-* More Levels
-          </pre>
-        </div>
         </div>
     </body>
 </html>
